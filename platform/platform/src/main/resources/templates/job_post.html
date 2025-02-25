@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>구인 공고 등록</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>구인 공고 등록</h1>
+    <form id="jobPostForm">
+      <label for="title">제목</label>
+      <input type="text" id="title" name="title" required maxlength="100">
+
+      <label for="content">내용</label>
+      <textarea id="content" name="content" required rows="6"></textarea>
+
+      <button type="submit">등록하기</button>
+    </form>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    document.getElementById('jobPostForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const content = document.getElementById('content').value;
+
+      fetch('/api/posts/job', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: title, content: content })
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('message').innerText = '공고가 등록되었습니다. ID: ' + data.id;
+        document.getElementById('jobPostForm').reset();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('message').innerText = '등록 실패: ' + error;
+      });
+    });
+  </script>
+</body>
+</html>

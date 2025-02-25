@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/platform?serverTimezone=Asia/Seoul
+    username: root
+    password: 1234
+
+websocket:
+  enabled: true
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.acc_platform.model
+
+server:
+  port: 8090
+
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+
+security:
+  user:
+    name: admin
+    password: admin
