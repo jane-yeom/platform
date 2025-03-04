@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>구인 공고 상세</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>구인 공고 상세</h1>
+    <div id="post-detail" class="card">
+      <p>로딩 중...</p>
+    </div>
+    <a href="/index.html" style="display:inline-block; margin-top:20px;">← 목록으로 돌아가기</a>
+  </div>
+
+  <script>
+    // URL 파라미터에서 id 추출
+    const params = new URLSearchParams(window.location.search);
+    const postId = params.get('id');
+
+    if (!postId) {
+      document.getElementById('post-detail').innerHTML =
+        '<p>잘못된 접근입니다. 게시글 ID가 없습니다.</p>';
+    } else {
+      // /api/posts/{id}로 상세 정보 요청
+      fetch(`/api/posts/${postId}`)
+        .then(response => {
+          if (!response.ok) throw new Error('네트워크 에러');
+          return response.json();
+        })
+        .then(post => {
+          renderDetail(post);
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById('post-detail').innerHTML =
+            '<p>게시글을 불러오는 중 에러가 발생했습니다.</p>';
+        });
+    }
+
+    function renderDetail(post) {
+      const detailEl = document.getElementById('post-detail');
+      detailEl.innerHTML = `
+        <h2>${post.title}</h2>
+        <p>${post.content}</p>
+        <small>등록일: ${new Date(post.createdAt).toLocaleString()}</small>
+      `;
+    }
+  </script>
+</body>
+</html>

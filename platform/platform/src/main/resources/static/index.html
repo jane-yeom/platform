@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>반주자 플랫폼 - 메인 화면</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <!-- 헤더 영역 -->
+  <header class="header">
+    <div class="logo">반주자</div>
+    <div class="search-bar">
+      <input type="text" placeholder="게시글 검색..." />
+    </div>
+    <div class="profile">
+      <img src="https://via.placeholder.com/40" alt="프로필" />
+    </div>
+  </header>
+
+  <!-- 상단 네비게이션 (예시로 추가) -->
+  <nav class="nav-menu container">
+    <div class="nav-item">HOME</div>
+    <div class="nav-item">커뮤니티</div>
+    <div class="nav-item">쪽지</div>
+    <div class="nav-item">채팅</div>
+    <div class="nav-item">프로필</div>
+  </nav>
+
+  <!-- 메인 컨테이너 -->
+  <div class="container">
+    <!-- 최상단: 유료 공고 섹션 -->
+    <section class="premium-ads">
+      <h2 class="section-title">유료 공고</h2>
+      <div class="card">
+        <strong>[채용] 프리미엄 반주자 모집</strong>
+        <p>최고의 연주력을 갖춘 반주자를 찾습니다. 자세한 내용 확인하세요.</p>
+      </div>
+      <!-- 추가 유료 공고 아이템들 -->
+    </section>
+
+    <!-- "구인 공고 등록하기" 버튼 영역 -->
+    <div class="job-post-button">
+      <a href="/job_post.html">구인 공고 등록하기</a>
+    </div>
+
+    <!-- 중간: 일반 공고 섹션 (내가 등록한 구인 공고) -->
+    <section class="normal-ads">
+      <h2 class="section-title">내가 등록한 구인 공고</h2>
+      <div id="posts">
+        <!-- 게시글 목록을 동적으로 렌더링 -->
+        <p>게시글을 불러오는 중...</p>
+      </div>
+    </section>
+
+    <!-- 맨 하단: 유료 프로필 섹션 -->
+    <section class="premium-profiles">
+      <h2 class="section-title">유료 프로필</h2>
+      <div class="premium-container">
+        <div class="premium-card">
+          <img src="https://via.placeholder.com/80" alt="프로필1" />
+          <div class="name">홍길동</div>
+          <div class="skill">피아노, 기타</div>
+        </div>
+        <div class="premium-card">
+          <img src="https://via.placeholder.com/80" alt="프로필2" />
+          <div class="name">김영희</div>
+          <div class="skill">드럼, 베이스</div>
+        </div>
+        <!-- 추가 프로필 카드 -->
+      </div>
+    </section>
+  </div>
+
+  <!-- 하단 푸터 -->
+  <footer class="footer">
+    &copy; 2025 반주자 플랫폼
+  </footer>
+
+  <!-- 게시글 목록을 불러오는 JavaScript (예시) -->
+  <script>
+    fetch('/api/posts/job')
+      .then(response => {
+        if (!response.ok) throw new Error('네트워크 응답 에러');
+        return response.json();
+      })
+      .then(posts => {
+        const postsContainer = document.getElementById('posts');
+        postsContainer.innerHTML = ""; // 초기 메시지 제거
+
+        if (!posts || posts.length === 0) {
+          postsContainer.innerHTML = '<p>등록된 공고가 없습니다.</p>';
+        } else {
+          posts.forEach(post => {
+            const postEl = document.createElement('div');
+            postEl.className = 'card';
+            postEl.innerHTML = `
+              <h3>${post.title}</h3>
+              <p>${post.content}</p>
+              <small>등록일: ${new Date(post.createdAt).toLocaleString()}</small>
+            `;
+            postsContainer.appendChild(postEl);
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        document.getElementById('posts').innerHTML =
+          '<p>게시글을 불러오는 중 에러가 발생했습니다.</p>';
+      });
+  </script>
+</body>
+</html>

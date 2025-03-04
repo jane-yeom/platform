@@ -13,7 +13,7 @@ mybatis:
   type-aliases-package: com.acc_platform.model
 
 server:
-  port: 8090
+  port: 8050
 
 logging:
   level:
@@ -24,3 +24,6 @@ security:
   user:
     name: admin
     password: admin
+
+app:
+  disable-security:true

@@ -1,54 +1,295 @@
-﻿/* 기본 리셋 및 전역 스타일 */
+﻿/* ------------------------------
+   RESET & GLOBAL
+------------------------------ */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-body {
+
+html {
+  font-size: 16px;
   font-family: 'Noto Sans KR', sans-serif;
-  background: #f8f8f8;
-  padding: 20px;
+}
+
+body {
+  background-color: #f3f4f6; /* 부드러운 회색 톤 */
   color: #333;
 }
+
+/* ------------------------------
+   CONTAINER & TYPOGRAPHY
+------------------------------ */
 .container {
-  max-width: 600px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
-  background: #fff;
   padding: 20px;
+}
+
+h1, h2, h3 {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 16px;
+}
+
+p {
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------------
+   HEADER & NAV
+------------------------------ */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 20px;
+}
+.header .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+.header .search-bar {
+  flex: 1;
+  margin: 0 20px;
+}
+.header .search-bar input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+.header .profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 16px;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+.nav-menu .nav-item {
+  color: #4b5563;
+  cursor: pointer;
+}
+.nav-menu .nav-item:hover {
+  color: #2563eb;
+}
+
+/* ------------------------------
+   BUTTON: 구인 공고 등록하기
+------------------------------ */
+.job-post-button {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.job-post-button a {
+  display: inline-block;
+  background-color: #2563eb;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.job-post-button a:hover {
+  background-color: #1e40af;
+}
+
+/* ------------------------------
+   SECTION & CARD STYLES
+------------------------------ */
+.section-title {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: #1f2937;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+/* 유료 공고 섹션 */
+.premium-ads {
+  margin-bottom: 30px;
+}
+.premium-ads .card {
+  border-left: 4px solid #ec4899;
+}
+
+/* 일반 공고 섹션 */
+.normal-ads {
+  margin-bottom: 30px;
+}
+.normal-ads .card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+/* 유료 프로필 섹션 */
+.premium-profiles {
+  margin-bottom: 30px;
+  padding: 20px;
+}
+.premium-profiles .section-title {
+  margin-bottom: 16px;
+}
+.premium-container {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+.premium-card {
+  min-width: 160px;
+  background-color: #f9fafb;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.premium-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+.premium-card .name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.premium-card .skill {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+/* ------------------------------
+   FOOTER
+------------------------------ */
+.footer {
+  background-color: #fff;
+  border-top: 1px solid #e2e8f0;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-top: 40px;
+}
+
+/* ------------------------------
+   RESPONSIVE
+------------------------------ */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .header .search-bar {
+    margin: 10px 0;
+  }
+  .nav-menu {
+    flex-wrap: wrap;
+  }
+  .premium-container {
+    flex-wrap: nowrap;
+  }
+}
+
+/* 메인 컨테이너 스타일 (기존 container 재활용) */
+.job-post-container {
+  max-width: 600px; /* 폼 너비 제한 */
+  margin-top: 40px; /* 헤더와 간격 */
+  background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 30px;
 }
-h1 {
+
+/* 페이지 제목 */
+.job-post-title {
+  font-size: 1.5rem;
   text-align: center;
   margin-bottom: 20px;
 }
-form {
+
+/* 폼 스타일 */
+.job-post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* 항목 간격 */
+}
+
+.form-group {
   display: flex;
   flex-direction: column;
 }
-label {
-  margin-bottom: 5px;
-  font-weight: bold;
+
+.form-label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1f2937;
 }
-input[type="text"],
-textarea {
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+
+.form-input,
+.form-textarea {
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #374151;
+  resize: none; /* textarea 크기 고정 (원한다면 제거) */
 }
-button {
-  padding: 10px;
-  background: #1976D2;
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #2563eb; /* 포커스 시 파란 테두리 */
+}
+
+.btn-submit {
+  align-self: flex-end; /* 버튼을 오른쪽 정렬 */
+  background-color: #2563eb;
   color: #fff;
+  padding: 12px 24px;
+  border-radius: 6px;
   border: none;
-  border-radius: 4px;
+  font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
-button:hover {
-  background: #145a9e;
+
+.btn-submit:hover {
+  background-color: #1e40af;
 }
+
+/* 메시지 영역 */
 .message {
-  margin-top: 15px;
+  margin-top: 20px;
   text-align: center;
+  font-weight: 500;
+  color: #2563eb; /* 성공 시 파란색 (오류 시 다른 색상으로 처리 가능) */
 }
