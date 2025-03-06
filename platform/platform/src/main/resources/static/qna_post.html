@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>문의 등록</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container job-post-container">
+    <h1 class="job-post-title">문의 등록</h1>
+    <form id="qnaForm" class="job-post-form">
+      <div class="form-group">
+        <label for="question" class="form-label">문의 제목</label>
+        <input type="text" id="question" name="question" class="form-input" required placeholder="문의 제목을 입력하세요">
+      </div>
+      <div class="form-group">
+        <label for="detail" class="form-label">문의 내용</label>
+        <textarea id="detail" name="detail" class="form-textarea" required rows="6" placeholder="문의 내용을 입력하세요"></textarea>
+      </div>
+      <button type="submit" class="btn-submit">등록하기</button>
+    </form>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    document.getElementById('qnaForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const question = document.getElementById('question').value;
+      const detail = document.getElementById('detail').value;
+
+      // 예시: Q&A 게시글 등록 API 호출 (아래 경로는 백엔드 구현에 따라 조정)
+      fetch('/api/qna', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: question, content: detail })
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('네트워크 응답 에러');
+        return response.json();
+      })
+      .then(data => {
+        alert('문의가 등록되었습니다. ID: ' + data.id);
+        window.location.href = '/qna.html';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('message').innerText = '등록 실패: ' + error;
+      });
+    });
+  </script>
+</body>
+</html>

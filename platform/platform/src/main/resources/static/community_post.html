@@ -1,18 +1,18 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>구인 공고 등록</title>
+  <title>커뮤니티 게시글 등록</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <div class="container job-post-container">
-    <h1 class="job-post-title">구인 공고 등록</h1>
-    <form id="jobPostForm" class="job-post-form">
+    <h1 class="job-post-title">커뮤니티 게시글 등록</h1>
+    <form id="communityPostForm" class="job-post-form">
       <div class="form-group">
         <label for="title" class="form-label">제목</label>
-        <input type="text" id="title" name="title" class="form-input" required maxlength="100" placeholder="제목을 입력하세요">
+        <input type="text" id="title" name="title" class="form-input" required maxlength="150" placeholder="제목을 입력하세요">
       </div>
 
       <div class="form-group">
@@ -26,12 +26,12 @@
   </div>
 
   <script>
-    document.getElementById('jobPostForm').addEventListener('submit', function(e) {
+    document.getElementById('communityPostForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const title = document.getElementById('title').value;
       const content = document.getElementById('content').value;
 
-      fetch('/api/posts/job', {
+      fetch('/api/community/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: title, content: content })
@@ -41,9 +41,9 @@
         return response.json();
       })
       .then(data => {
-        alert('구인 공고가 등록되었습니다. ID: ' + data.id);
-        // 등록 후 구인 공고 목록 페이지로 이동 (예: 메인 페이지)
-        window.location.href = '/index.html';
+        alert('게시글이 등록되었습니다. ID: ' + data.id);
+        // 등록 후 커뮤니티 목록 페이지로 이동
+        window.location.href = '/community_list.html';
       })
       .catch(error => {
         console.error('Error:', error);

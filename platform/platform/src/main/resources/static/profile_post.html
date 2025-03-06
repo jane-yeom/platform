@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>프로필 등록</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="container job-post-container">
+    <h1 class="job-post-title">프로필 등록</h1>
+    <form id="profileForm" class="job-post-form">
+      <div class="form-group">
+        <label for="name" class="form-label">이름</label>
+        <input type="text" id="name" name="name" class="form-input" required maxlength="50" placeholder="이름을 입력하세요" />
+      </div>
+
+      <div class="form-group">
+        <label for="skill" class="form-label">주요 스킬</label>
+        <input type="text" id="skill" name="skill" class="form-input" maxlength="100" placeholder="예: 피아노, 기타 등" />
+      </div>
+
+      <div class="form-group">
+        <label for="experience" class="form-label">경력</label>
+        <textarea id="experience" name="experience" class="form-textarea" rows="6" placeholder="경력 사항을 입력하세요"></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">등록하기</button>
+    </form>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const skill = document.getElementById('skill').value;
+      const experience = document.getElementById('experience').value;
+
+      fetch('/api/profiles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, skill: skill, experience: experience })
+      })
+      .then(response => response.json())
+      .then(data => {
+         alert('게시글이 등록되었습니다. ID: ' + data.id);
+        // 등록 후 커뮤니티 목록 페이지로 이동
+        window.location.href = '/profile_list.html';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('message').innerText = '등록 실패: ' + error;
+      });
+    });
+  </script>
+</body>
+</html>

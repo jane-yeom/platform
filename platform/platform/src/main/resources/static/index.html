@@ -13,19 +13,28 @@
     <div class="search-bar">
       <input type="text" placeholder="게시글 검색..." />
     </div>
-    <div class="profile">
-      <img src="https://via.placeholder.com/40" alt="프로필" />
-    </div>
+    <a href="/my_profile.html" class="profile-link">
+      <div class="profile">
+        <img src="https://via.placeholder.com/40" alt="프로필">
+        <span class="username">홍길동</span>
+      </div>
+    </a>
   </header>
 
   <!-- 상단 네비게이션 (예시로 추가) -->
-  <nav class="nav-menu container">
-    <div class="nav-item">HOME</div>
-    <div class="nav-item">커뮤니티</div>
-    <div class="nav-item">쪽지</div>
-    <div class="nav-item">채팅</div>
-    <div class="nav-item">프로필</div>
-  </nav>
+<nav class="nav-menu container">
+  <div class="nav-item"><a href="/index.html">HOME</a></div>
+  <div class="nav-item"><a href="/community_list.html">커뮤니티</a></div>
+  <div class="nav-item"><a href="/profile_list.html">프로필</a></div>
+  <div class="nav-item dropdown">
+    <a href="#" class="dropbtn">고객센터</a>
+    <div class="dropdown-content">
+      <a href="/qna.html">QnA</a>
+      <a href="/one_on_one.html">1:1문의</a>
+      <a href="/chatbot.html">챗봇</a>
+    </div>
+  </div>
+</nav>
 
   <!-- 메인 컨테이너 -->
   <div class="container">

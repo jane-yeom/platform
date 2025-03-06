@@ -39,5 +39,15 @@ public class PostController {
         return ResponseEntity.ok(post);
     }
 
+    @GetMapping("/community/{id}")
+    public ResponseEntity<Post> getCommunityPostById(@PathVariable Long id) {
+        // 게시글이 '커뮤니티' 타입인지 확인하는 로직(생략 가능)
+        Post post = postService.getPostById(id);
+        if (post == null || !"커뮤니티".equals(post.getType())) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(post);
+    }
+
 
 }

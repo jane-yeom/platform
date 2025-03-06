@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>프로필 목록</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <!-- 헤더 영역 -->
+  <header class="header">
+    <div class="logo">반주자</div>
+    <div class="search-bar">
+      <input type="text" placeholder="프로필 검색..." />
+    </div>
+    <div class="profile">
+      <img src="https://via.placeholder.com/40" alt="프로필" />
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="section-title">프리미엄 프로필</h1>
+    <div id="premiumProfiles" class="premium-container">
+      <p>로딩 중...</p>
+    </div>
+
+    <h2 class="section-title" style="margin-top:30px;">전체 프로필</h2>
+    <div id="allProfiles">
+      <p>로딩 중...</p>
+    </div>
+
+    <a href="/index.html" class="btn-back">← 메인으로 돌아가기</a>
+    <a href="/profile_post.html" >프로필 등록</a>
+  </div>
+
+  <script>
+    // GET /api/profiles 호출
+    fetch('/api/profiles')
+      .then(response => {
+        if (!response.ok) throw new Error('네트워크 응답 에러');
+        return response.json();
+      })
+      .then(profiles => {
+        const premiumContainer = document.getElementById('premiumProfiles');
+        const allProfilesContainer = document.getElementById('allProfiles');
+        premiumContainer.innerHTML = "";
+        allProfilesContainer.innerHTML = "";
+
+        if (!profiles || profiles.length === 0) {
+          premiumContainer.innerHTML = '<p>등록된 프로필이 없습니다.</p>';
+          allProfilesContainer.innerHTML = '<p>등록된 프로필이 없습니다.</p>';
+        } else {
+          // 프리미엄 프로필 필터링 (여기서는 premium 플래그가 있는 경우; 없으면 전체 노출)
+          const premiumProfiles = profiles.filter(p => p.premium === true);
+
+          // 프리미엄 프로필 섹션
+          if (premiumProfiles.length === 0) {
+            premiumContainer.innerHTML = '<p>등록된 프리미엄 프로필이 없습니다.</p>';
+          } else {
+            premiumProfiles.forEach(profile => {
+              const card = document.createElement('div');
+              card.className = 'premium-card';
+              card.innerHTML = `
+                <img src="${profile.imageUrl || 'https://via.placeholder.com/80'}" alt="프로필">
+                <div class="name">${profile.name}</div>
+                <div class="skill">${profile.skill || ''}</div>
+              `;
+              premiumContainer.appendChild(card);
+            });
+          }
+
+          // 전체 프로필 섹션
+          profiles.forEach(profile => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+              <h3>${profile.name}</h3>
+              <p>스킬: ${profile.skill || '정보 없음'}</p>
+              <p>악기: ${profile.instrument || '정보 없음'}</p>
+              <small>등록일: ${new Date(profile.createdAt).toLocaleString()}</small>
+            `;
+            allProfilesContainer.appendChild(card);
+          });
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching profiles:', error);
+        document.getElementById('premiumProfiles').innerHTML =
+          '<p>프로필을 불러오는 중 에러가 발생했습니다.</p>';
+        document.getElementById('allProfiles').innerHTML =
+          '<p>프로필을 불러오는 중 에러가 발생했습니다.</p>';
+      });
+  </script>
+</body>
+</html>

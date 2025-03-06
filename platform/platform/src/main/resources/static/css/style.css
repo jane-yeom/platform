@@ -293,3 +293,122 @@ a:hover {
   font-weight: 500;
   color: #2563eb; /* 성공 시 파란색 (오류 시 다른 색상으로 처리 가능) */
 }
+
+/* 폼 컨테이너 */
+.job-post-container {
+  max-width: 600px;
+  margin-top: 40px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 30px;
+}
+
+/* 폼 타이틀 */
+.job-post-title {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* 폼 그룹 */
+.job-post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+.form-label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1f2937;
+}
+.form-input,
+.form-textarea {
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #374151;
+}
+.btn-submit {
+  align-self: flex-end;
+  background-color: #2563eb;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn-submit:hover {
+  background-color: #1e40af;
+}
+.message {
+  margin-top: 20px;
+  text-align: center;
+  font-weight: 500;
+  color: #2563eb;
+}
+
+.profile-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 사용자 이름 스타일 */
+.username {
+  margin-left: 8px;
+  font-size: 1rem;
+  vertical-align: middle;
+}
+/* 드롭다운 메뉴 스타일 */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  color: #4b5563;
+  text-decoration: none;
+  padding: 8px 12px;
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 150px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.dropdown-content a {
+  color: #4b5563;
+  padding: 10px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 0.9rem;
+}
+
+.dropdown-content a:hover {
+  background-color: #f3f4f6;
+}
+
+/* 드롭다운 활성화: 마우스 오버 시 하위 메뉴 표시 */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* 드롭다운 부모 항목 hover 시 색상 변경 */
+.dropdown:hover .dropbtn {
+  color: #2563eb;
+}
+
+

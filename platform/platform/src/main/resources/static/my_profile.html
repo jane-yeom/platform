@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>내 프로필 관리</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container job-post-container">
+    <h1 class="job-post-title">내 프로필 관리</h1>
+    <!-- 테스트를 위해 profileId를 1로 설정 (실제 서비스에서는 로그인한 사용자 정보로 대체) -->
+    <input type="hidden" id="profileId" value="1">
+    <form id="profileForm" class="job-post-form">
+      <div class="form-group">
+        <label for="name" class="form-label">이름</label>
+        <input type="text" id="name" name="name" class="form-input" required placeholder="이름을 입력하세요">
+      </div>
+      <div class="form-group">
+        <label for="skill" class="form-label">주요 스킬</label>
+        <input type="text" id="skill" name="skill" class="form-input" placeholder="주요 스킬을 입력하세요">
+      </div>
+      <div class="form-group">
+        <label for="instrument" class="form-label">연주 가능 악기</label>
+        <input type="text" id="instrument" name="instrument" class="form-input" placeholder="연주 가능한 악기를 입력하세요">
+      </div>
+      <div class="form-group">
+        <label for="content" class="form-label">소개/경력</label>
+        <textarea id="content" name="content" class="form-textarea" rows="4" placeholder="자신을 소개하세요"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="portfolioUrl" class="form-label">포트폴리오 URL</label>
+        <input type="text" id="portfolioUrl" name="portfolioUrl" class="form-input" placeholder="포트폴리오 URL">
+      </div>
+      <div class="form-group">
+        <label for="availability" class="form-label">활동 가능 시간</label>
+        <input type="text" id="availability" name="availability" class="form-input" placeholder="예: 평일 오후 2시 ~ 6시">
+      </div>
+      <div class="form-group">
+        <label for="region" class="form-label">활동 가능 지역</label>
+        <input type="text" id="region" name="region" class="form-input" placeholder="예: 서울, 경기 등">
+      </div>
+      <button type="submit" class="btn-submit">프로필 저장</button>
+    </form>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    const profileId = document.getElementById('profileId').value;
+
+    function loadProfile(id) {
+      fetch(`/api/myprofile/${id}`)
+        .then(response => {
+          if (!response.ok) throw new Error('프로필 조회 실패');
+          return response.json();
+        })
+        .then(profile => {
+          document.getElementById('name').value = profile.name || "";
+          document.getElementById('skill').value = profile.skill || "";
+          document.getElementById('instrument').value = profile.instrument || "";
+          document.getElementById('content').value = profile.content || "";
+          document.getElementById('portfolioUrl').value = profile.portfolioUrl || "";
+          document.getElementById('availability').value = profile.availability || "";
+          document.getElementById('region').value = profile.region || "";
+        })
+        .catch(error => {
+          console.error(error);
+          document.getElementById('message').innerText = "프로필 불러오기 에러: " + error;
+        });
+    }
+
+    loadProfile(profileId);
+
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const profileData = {
+        name: document.getElementById('name').value,
+        skill: document.getElementById('skill').value,
+        instrument: document.getElementById('instrument').value,
+        content: document.getElementById('content').value,
+        portfolioUrl: document.getElementById('portfolioUrl').value,
+        availability: document.getElementById('availability').value,
+        region: document.getElementById('region').value
+      };
+
+      fetch(`/api/myprofile/${profileId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profileData)
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('프로필 저장 실패');
+        return response.json();
+      })
+      .then(data => {
+        alert('프로필이 저장되었습니다.');
+        loadProfile(profileId);
+      })
+      .catch(error => {
+        console.error(error);
+        document.getElementById('message').innerText = "저장 실패: " + error;
+      });
+    });
+  </script>
+</body>
+</html>

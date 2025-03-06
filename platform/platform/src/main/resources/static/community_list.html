@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>커뮤니티 게시글</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="section-title">커뮤니티 게시글</h1>
+    <div id="communityPosts">
+      <p>게시글을 불러오는 중...</p>
+    </div>
+    <div class="pagination">
+      <button id="prevPage" disabled>이전</button>
+      <span id="currentPage">1</span>
+      <button id="nextPage">다음</button>
+    </div>
+    <a href="/index.html" class="btn-back">← 메인으로 돌아가기</a>
+    <a href="/community_post.html" >글쓰기</a>
+  </div>
+
+  <script>
+    let currentPage = 0;
+    const pageSize = 10;
+
+    function loadPosts(page) {
+      fetch(`/api/community/posts?page=${page}&size=${pageSize}`)
+        .then(response => {
+          if (!response.ok) throw new Error('네트워크 응답 에러');
+          return response.json();
+        })
+        .then(posts => {
+          const postsContainer = document.getElementById('communityPosts');
+          postsContainer.innerHTML = "";
+          if (!posts || posts.length === 0) {
+            postsContainer.innerHTML = '<p>등록된 게시글이 없습니다.</p>';
+          } else {
+            posts.forEach(post => {
+              const postEl = document.createElement('div');
+              postEl.className = 'card';
+              // 게시글 제목 클릭 시 상세 페이지(detail_community.html?id=...)
+              postEl.innerHTML = `
+                <a href="/detail_community.html?id=${post.id}" style="text-decoration:none; color:inherit;">
+                  <h3>${post.title}</h3>
+                </a>
+                <p>${post.content}</p>
+                <small>등록일: ${new Date(post.createdAt).toLocaleString()}</small>
+              `;
+              postsContainer.appendChild(postEl);
+            });
+          }
+          // 페이지 번호 업데이트
+          document.getElementById('currentPage').innerText = page + 1;
+          // 이전 버튼 활성화 여부
+          document.getElementById('prevPage').disabled = (page === 0);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          document.getElementById('communityPosts').innerHTML = '<p>게시글을 불러오는 중 에러가 발생했습니다.</p>';
+        });
+    }
+
+    document.getElementById('prevPage').addEventListener('click', function() {
+      if (currentPage > 0) {
+        currentPage--;
+        loadPosts(currentPage);
+      }
+    });
+
+    document.getElementById('nextPage').addEventListener('click', function() {
+      currentPage++;
+      loadPosts(currentPage);
+    });
+
+    // 초기 로드
+    loadPosts(currentPage);
+  </script>
+</body>
+</html>

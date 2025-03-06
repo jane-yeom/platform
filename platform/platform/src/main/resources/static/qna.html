@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>고객센터 (Q&A)</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- 헤더 영역 (재사용) -->
+  <header class="header">
+    <div class="logo">반주자</div>
+    <div class="search-bar">
+      <input type="text" placeholder="게시글 검색...">
+    </div>
+    <a href="/my_profile.html" class="profile-link">
+      <div class="profile">
+        <img src="https://via.placeholder.com/40" alt="프로필">
+        <span class="username">홍길동</span>
+      </div>
+    </a>
+  </header>
+
+  <div class="container">
+    <h1 class="section-title">고객센터 (Q&A)</h1>
+    <!-- Q&A 게시글 목록 영역 -->
+    <div id="qnaPosts">
+      <p>등록된 문의가 없습니다.</p>
+    </div>
+    <!-- 문의 등록 버튼 -->
+    <div class="job-post-button" style="margin-top:20px;">
+      <a href="/qna_post.html">문의 등록하기</a>
+    </div>
+
+    <a href="/index.html" class="btn-back" style="display:block; margin-top:20px;">← 메인으로 돌아가기</a>
+  </div>
+
+  <footer class="footer">
+    &copy; 2025 반주자 플랫폼
+  </footer>
+
+  <script>
+    // Q&A 게시글을 불러오는 fetch 코드를 추후 구현할 수 있습니다.
+    // 예시: fetch('/api/qna')를 호출하여 데이터를 렌더링.
+  </script>
+</body>
+</html>
