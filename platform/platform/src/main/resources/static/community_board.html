@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>커뮤니티 게시판</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    /* 게시판 헤더 및 행 스타일 */
+    .board-header, .board-row {
+      display: flex;
+      padding: 10px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .board-header {
+      background-color: #f3f4f6;
+      font-weight: 600;
+    }
+    .board-col {
+      flex: 1;
+      text-align: center;
+    }
+    /* 제목 컬럼은 넓게 */
+    .board-col-title {
+      flex: 3;
+      text-align: left;
+      padding-left: 10px;
+    }
+    /* 링크 스타일 */
+    .board-row a {
+      text-decoration: none;
+      color: inherit;
+    }
+    .board-row a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="section-title">커뮤니티 게시판</h1>
+    <div id="board">
+      <!-- 게시판 헤더 -->
+      <div class="board-header">
+        <span class="board-col board-col-num">글번호</span>
+        <span class="board-col board-col-title">제목</span>
+        <span class="board-col board-col-author">글쓴이</span>
+        <span class="board-col board-col-views">조회수</span>
+        <span class="board-col board-col-date">작성날짜</span>
+      </div>
+      <!-- 게시글 목록이 동적으로 생성될 영역 -->
+      <div id="boardBody">
+        <p>게시글을 불러오는 중...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 예시: GET /api/communities 엔드포인트에서 게시글 목록을 불러온다고 가정합니다.
+    fetch(`/api/community/posts?page=${page}&size=${pageSize}`)
+      .then(response => {
+        if (!response.ok) throw new Error('네트워크 응답 에러');
+        return response.json();
+      })
+      .then(posts => {
+        const boardBody = document.getElementById('boardBody');
+        boardBody.innerHTML = "";
+        if (!posts || posts.length === 0) {
+          boardBody.innerHTML = '<p>등록된 게시글이 없습니다.</p>';
+        } else {
+          posts.forEach(post => {
+            // 각 게시글에 대한 게시판 행을 생성합니다.
+            const row = document.createElement('div');
+            row.className = 'board-row';
+            row.innerHTML = `
+              <span class="board-col board-col-num">${post.id}</span>
+              <span class="board-col board-col-title">
+                <a href="/post_detail.html?id=${post.id}">
+                  ${post.title}
+                </a>
+              </span>
+              <span class="board-col board-col-author">${post.author || 'N/A'}</span>
+              <span class="board-col board-col-views">${post.views || 0}</span>
+              <span class="board-col board-col-date">${new Date(post.createdAt).toLocaleDateString()}</span>
+            `;
+            boardBody.appendChild(row);
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        document.getElementById('boardBody').innerHTML = '<p>게시글을 불러오는 중 에러가 발생했습니다.</p>';
+      });
+  </script>
+</body>
+</html>

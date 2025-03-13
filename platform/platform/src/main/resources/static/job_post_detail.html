@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>구인 공고 상세</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <div id="postDetail" class="card">
+      <p>게시글을 불러오는 중...</p>
+    </div>
+    <a href="/index.html" class="btn-back" style="display:block; margin-top:20px;">← 목록으로 돌아가기</a>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const postId = params.get('id');
+
+    if (!postId) {
+      document.getElementById('postDetail').innerHTML = '<p>잘못된 접근입니다. 게시글 ID가 없습니다.</p>';
+    } else {
+      fetch(`/api/posts/job/${postId}`)
+        .then(response => {
+          if (!response.ok) throw new Error('게시글 상세 불러오기 실패');
+          return response.json();
+        })
+        .then(post => {
+          const detailEl = document.getElementById('postDetail');
+          detailEl.innerHTML = `
+            <h2>${post.title}</h2>
+            <p>${post.content}</p>
+            <div class="job-detail-meta">
+              <span>글번호: ${post.id}</span>
+              <span>글쓴이: ${post.author || 'N/A'}</span>
+              <span>작성일: ${new Date(post.createdAt).toLocaleDateString()}</span>
+              <span>조회수: ${post.views || 0}</span>
+              <span>댓글수: ${post.commentCount || 0}</span>
+              <span>좋아요수: ${post.likeCount || 0}</span>
+            </div>
+          `;
+        })
+        .catch(error => {
+          console.error(error);
+          document.getElementById('postDetail').innerHTML = '<p>게시글을 불러오는 중 에러가 발생했습니다.</p>';
+        });
+    }
+  </script>
+</body>
+</html>

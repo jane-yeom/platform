@@ -22,4 +22,6 @@ public interface ProfileMapper {
             "WHERE id = #{id}")
     int updateProfile(Profile profile);
 
+
+
 }

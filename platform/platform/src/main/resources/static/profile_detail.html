@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>프로필 상세</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- 헤더 영역 (기존 스타일 재사용) -->
+  <header class="header">
+    <div class="logo">반주자</div>
+    <div class="search-bar">
+      <input type="text" placeholder="검색..." />
+    </div>
+    <a href="/my_profile.html" class="profile-link">
+      <div class="profile">
+        <img src="https://via.placeholder.com/40" alt="프로필">
+        <span class="username">홍길동</span>
+      </div>
+    </a>
+  </header>
+
+  <!-- 메인 컨테이너 -->
+  <div class="container">
+    <div id="profileDetail" class="card">
+      <p>프로필 정보를 불러오는 중...</p>
+    </div>
+    <a href="/profile_list.html" class="btn-back" style="display: block; margin-top: 20px;">← 목록으로 돌아가기</a>
+  </div>
+
+  <!-- 푸터 (선택적) -->
+  <footer class="footer">
+    &copy; 2025 반주자 플랫폼
+  </footer>
+
+  <script>
+    // URL 쿼리 파라미터에서 profile id 추출
+    const params = new URLSearchParams(window.location.search);
+    const profileId = params.get('id');
+
+    if (!profileId) {
+      document.getElementById('profileDetail').innerHTML = '<p>잘못된 접근입니다. 프로필 ID가 없습니다.</p>';
+    } else {
+      fetch(`/api/profiles/${profileId}`)
+        .then(response => {
+          if (!response.ok) throw new Error('프로필 정보를 불러오는 중 오류가 발생했습니다.');
+          return response.json();
+        })
+        .then(profile => {
+          const detailEl = document.getElementById('profileDetail');
+          detailEl.innerHTML = `
+            <h2>${profile.name}</h2>
+            <p><strong>스킬:</strong> ${profile.skill || '정보 없음'}</p>
+            <p><strong>악기:</strong> ${profile.instrument || '정보 없음'}</p>
+            <p><strong>소개:</strong> ${profile.content || '정보 없음'}</p>
+            <p><strong>포트폴리오:</strong> ${profile.portfolioUrl ? `<a href="${profile.portfolioUrl}" target="_blank">${profile.portfolioUrl}</a>` : '정보 없음'}</p>
+            <p><strong>활동 가능 시간:</strong> ${profile.availability || '정보 없음'}</p>
+            <p><strong>활동 지역:</strong> ${profile.region || '정보 없음'}</p>
+            <small>등록일: ${new Date(profile.createdAt).toLocaleString()}</small>
+          `;
+        })
+        .catch(error => {
+          console.error(error);
+          document.getElementById('profileDetail').innerHTML = `<p>${error.message}</p>`;
+        });
+    }
+  </script>
+</body>
+</html>

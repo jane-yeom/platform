@@ -1,11 +1,7 @@
 package com.acc_platform.controller;
 
-import com.acc_platform.model.Comment;
 import com.acc_platform.model.Community;
-import com.acc_platform.model.Post;
-import com.acc_platform.service.CommentService;
 import com.acc_platform.service.CommunityService;
-import com.acc_platform.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

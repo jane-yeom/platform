@@ -7,115 +7,180 @@
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-  <!-- 헤더 영역 -->
-  <header class="header">
-    <div class="logo">반주자</div>
-    <div class="search-bar">
-      <input type="text" placeholder="게시글 검색..." />
-    </div>
-    <a href="/my_profile.html" class="profile-link">
-      <div class="profile">
-        <img src="https://via.placeholder.com/40" alt="프로필">
-        <span class="username">홍길동</span>
-      </div>
-    </a>
-  </header>
+  <div id="globalHeader"></div>
+  <script>
+    fetch('/header.html')
+      .then(response => {
+        if (!response.ok) throw new Error('헤더 로드 실패');
+        return response.text();
+      })
+      .then(html => {
+        document.getElementById('globalHeader').innerHTML = html;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  </script>
 
-  <!-- 상단 네비게이션 (예시로 추가) -->
-<nav class="nav-menu container">
-  <div class="nav-item"><a href="/index.html">HOME</a></div>
-  <div class="nav-item"><a href="/community_list.html">커뮤니티</a></div>
-  <div class="nav-item"><a href="/profile_list.html">프로필</a></div>
-  <div class="nav-item dropdown">
-    <a href="#" class="dropbtn">고객센터</a>
-    <div class="dropdown-content">
-      <a href="/qna.html">QnA</a>
-      <a href="/one_on_one.html">1:1문의</a>
-      <a href="/chatbot.html">챗봇</a>
-    </div>
-  </div>
-</nav>
-
-  <!-- 메인 컨테이너 -->
+  <!-- 메인 콘텐츠 영역 -->
   <div class="container">
-    <!-- 최상단: 유료 공고 섹션 -->
+    <!-- 유료 구인 공고 섹션 (그리드 카드 형식) -->
     <section class="premium-ads">
-      <h2 class="section-title">유료 공고</h2>
-      <div class="card">
-        <strong>[채용] 프리미엄 반주자 모집</strong>
-        <p>최고의 연주력을 갖춘 반주자를 찾습니다. 자세한 내용 확인하세요.</p>
+      <h2 class="section-title">유료 구인 공고</h2>
+      <div id="paidPosts" class="grid-layout">
+        <p>등록된 유료 구인 공고를 불러오는 중...</p>
       </div>
-      <!-- 추가 유료 공고 아이템들 -->
     </section>
 
-    <!-- "구인 공고 등록하기" 버튼 영역 -->
-    <div class="job-post-button">
-      <a href="/job_post.html">구인 공고 등록하기</a>
-    </div>
-
-    <!-- 중간: 일반 공고 섹션 (내가 등록한 구인 공고) -->
+    <!-- 일반 구인 공고 섹션 (게시판 형식) -->
     <section class="normal-ads">
-      <h2 class="section-title">내가 등록한 구인 공고</h2>
-      <div id="posts">
-        <!-- 게시글 목록을 동적으로 렌더링 -->
-        <p>게시글을 불러오는 중...</p>
+      <h2 class="section-title">일반 구인 공고</h2>
+      <div id="freePostsBoard">
+        <!-- 게시판 헤더 -->
+        <div class="board-header">
+          <span class="board-col board-col-num">글번호</span>
+          <span class="board-col board-col-title">제목</span>
+          <span class="board-col board-col-author">글쓴이</span>
+          <span class="board-col board-col-date">작성날짜</span>
+          <span class="board-col board-col-views">조회수</span>
+          <span class="board-col board-col-comments">댓글수</span>
+          <span class="board-col board-col-likes">좋아요수</span>
+        </div>
+        <div id="freePosts" class="board-body">
+          <p>등록된 일반 구인 공고를 불러오는 중...</p>
+        </div>
       </div>
     </section>
 
-    <!-- 맨 하단: 유료 프로필 섹션 -->
+    <!-- 유료 프로필 섹션 (그리드 형식) -->
     <section class="premium-profiles">
       <h2 class="section-title">유료 프로필</h2>
       <div class="premium-container">
-        <div class="premium-card">
-          <img src="https://via.placeholder.com/80" alt="프로필1" />
-          <div class="name">홍길동</div>
-          <div class="skill">피아노, 기타</div>
-        </div>
-        <div class="premium-card">
-          <img src="https://via.placeholder.com/80" alt="프로필2" />
-          <div class="name">김영희</div>
-          <div class="skill">드럼, 베이스</div>
-        </div>
-        <!-- 추가 프로필 카드 -->
+        <a href="/profile_detail.html?id=201" style="text-decoration:none; color:inherit;">
+          <div class="premium-card">
+            <img src="https://via.placeholder.com/80" alt="프로필1" />
+            <div class="name">홍길동</div>
+            <div class="skill">피아노, 기타</div>
+          </div>
+        </a>
+        <a href="/profile_detail.html?id=202" style="text-decoration:none; color:inherit;">
+          <div class="premium-card">
+            <img src="https://via.placeholder.com/80" alt="프로필2" />
+            <div class="name">김영희</div>
+            <div class="skill">드럼, 베이스</div>
+          </div>
+        </a>
       </div>
+      <!-- 기본 프로필 리스트 (추가 섹션) -->
+      <section class="basic-profiles">
+        <h2 class="section-title">기본 프로필</h2>
+        <ul id="basicProfiles" class="list-layout">
+          <li><p>프로필을 불러오는 중...</p></li>
+        </ul>
+      </section>
     </section>
   </div>
 
-  <!-- 하단 푸터 -->
   <footer class="footer">
     &copy; 2025 반주자 플랫폼
   </footer>
 
-  <!-- 게시글 목록을 불러오는 JavaScript (예시) -->
   <script>
-    fetch('/api/posts/job')
+    // 유료 구인 공고 불러오기 (GET /api/posts/job/paid)
+    fetch('/api/posts/job/paid')
       .then(response => {
         if (!response.ok) throw new Error('네트워크 응답 에러');
         return response.json();
       })
       .then(posts => {
-        const postsContainer = document.getElementById('posts');
-        postsContainer.innerHTML = ""; // 초기 메시지 제거
-
+        const paidContainer = document.getElementById('paidPosts');
+        paidContainer.innerHTML = "";
         if (!posts || posts.length === 0) {
-          postsContainer.innerHTML = '<p>등록된 공고가 없습니다.</p>';
+          paidContainer.innerHTML = '<p>등록된 유료 구인 공고가 없습니다.</p>';
         } else {
           posts.forEach(post => {
             const postEl = document.createElement('div');
-            postEl.className = 'card';
+            postEl.className = 'job-card';
             postEl.innerHTML = `
-              <h3>${post.title}</h3>
+              <a href="/job_post_detail.html?id=${post.id}" style="text-decoration:none; color:inherit;">
+                <h3>${post.title}</h3>
+              </a>
               <p>${post.content}</p>
               <small>등록일: ${new Date(post.createdAt).toLocaleString()}</small>
             `;
-            postsContainer.appendChild(postEl);
+            paidContainer.appendChild(postEl);
           });
         }
       })
       .catch(error => {
         console.error(error);
-        document.getElementById('posts').innerHTML =
-          '<p>게시글을 불러오는 중 에러가 발생했습니다.</p>';
+        document.getElementById('paidPosts').innerHTML = '<p>게시글을 불러오는 중 에러가 발생했습니다.</p>';
+      });
+
+    // 일반 구인 공고 불러오기 (GET /api/posts/job/free) - 게시판 형식
+    fetch('/api/posts/job/free')
+      .then(response => {
+        if (!response.ok) throw new Error('네트워크 응답 에러');
+        return response.json();
+      })
+      .then(posts => {
+        const boardBody = document.getElementById('freePosts');
+        boardBody.innerHTML = "";
+        if (!posts || posts.length === 0) {
+          boardBody.innerHTML = '<p>등록된 일반 구인 공고가 없습니다.</p>';
+        } else {
+          posts.forEach((post, index) => {
+            // 각 게시글 번호는 인덱스+1 또는 post.id를 사용할 수 있음
+            boardBody.innerHTML += `
+              <div class="board-row">
+                <span class="board-col board-col-num">${post.id}</span>
+                <span class="board-col board-col-title">
+                  <a href="/job_post_detail.html?id=${post.id}" style="text-decoration:none; color:inherit;">
+                    ${post.title}
+                  </a>
+                </span>
+                <span class="board-col board-col-author">${post.author || 'N/A'}</span>
+                <span class="board-col board-col-date">${new Date(post.createdAt).toLocaleDateString()}</span>
+                <span class="board-col board-col-views">${post.views || 0}</span>
+                <span class="board-col board-col-comments">${post.commentCount || 0}</span>
+                <span class="board-col board-col-likes">${post.likeCount || 0}</span>
+              </div>
+            `;
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        document.getElementById('freePosts').innerHTML = '<p>게시글을 불러오는 중 에러가 발생했습니다.</p>';
+      });
+
+    // 기본 프로필 불러오기 (GET /api/profiles/basic)
+    fetch('/api/profiles')
+      .then(response => {
+        if (!response.ok) throw new Error('네트워크 응답 에러');
+        return response.json();
+      })
+      .then(profiles => {
+        const basicContainer = document.getElementById('basicProfiles');
+        basicContainer.innerHTML = "";
+        if (!profiles || profiles.length === 0) {
+          basicContainer.innerHTML = '<li><p>등록된 프로필이 없습니다.</p></li>';
+        } else {
+          profiles.forEach(profile => {
+            const li = document.createElement('li');
+            li.className = 'list-item';
+            li.innerHTML = `
+              <a href="/profile_detail.html?id=${profile.id}" style="text-decoration:none; color:inherit;">
+                ${profile.name}
+              </a>
+            `;
+            basicContainer.appendChild(li);
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        document.getElementById('basicProfiles').innerHTML = '<li><p>프로필을 불러오는 중 에러가 발생했습니다.</p></li>';
       });
   </script>
 </body>

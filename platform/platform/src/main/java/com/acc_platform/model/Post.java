@@ -18,7 +18,11 @@ public class Post {
     @NotBlank(message = "내용은 필수입니다.")
     private String content;
 
+    // 기본 게시글 타입은 '구인'
     private String type;
+
+    // 유료/무료 구분: "유료" 또는 "무료"
+    private String feeType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

@@ -20,6 +20,14 @@
         <textarea id="content" name="content" class="form-textarea" required rows="6" placeholder="내용을 입력하세요"></textarea>
       </div>
 
+      <div class="form-group">
+        <label class="form-label">유료/무료 선택</label>
+        <div>
+          <label><input type="radio" name="feeType" value="유료" required> 유료</label>
+          <label style="margin-left:10px;"><input type="radio" name="feeType" value="무료" required checked> 무료</label>
+        </div>
+      </div>
+
       <button type="submit" class="btn-submit">등록하기</button>
     </form>
     <div class="message" id="message"></div>
@@ -30,11 +38,12 @@
       e.preventDefault();
       const title = document.getElementById('title').value;
       const content = document.getElementById('content').value;
+      const feeType = document.querySelector('input[name="feeType"]:checked').value;
 
       fetch('/api/posts/job', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: title, content: content })
+        body: JSON.stringify({ title: title, content: content, feeType: feeType })
       })
       .then(response => {
         if (!response.ok) throw new Error('네트워크 응답 에러');
@@ -42,7 +51,6 @@
       })
       .then(data => {
         alert('구인 공고가 등록되었습니다. ID: ' + data.id);
-        // 등록 후 구인 공고 목록 페이지로 이동 (예: 메인 페이지)
         window.location.href = '/index.html';
       })
       .catch(error => {

@@ -44,4 +44,5 @@ public class ProfileController {
         Profile updated = profileService.updateProfile(id, profile);
         return ResponseEntity.ok(updated);
     }
+
 }
