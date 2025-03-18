@@ -16,7 +16,9 @@ public class Post {
     private String title;
 
     @NotBlank(message = "내용은 필수입니다.")
-    private String content;
+    private String description;
+    private String companyName;
+    private String writer;
 
     // 기본 게시글 타입은 '구인'
     private String type;

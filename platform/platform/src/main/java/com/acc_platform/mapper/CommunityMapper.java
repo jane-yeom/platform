@@ -26,4 +26,7 @@ public interface CommunityMapper {
 
     @Delete("DELETE FROM community WHERE id = #{id}")
     int deleteCommunityPost(Long id);
+
+    @Select("SELECT * FROM community ORDER BY created_at DESC LIMIT 5")
+    List<Community> findLatestPosts();
 }

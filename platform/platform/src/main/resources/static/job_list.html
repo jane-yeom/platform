@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구인공고</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>구인공고</h1>
+
+    <!-- 유료 공고 (상단 고정) -->
+    <section>
+        <h2>📌 유료 공고</h2>
+        <div id="paid-job-list">
+            <p>유료 공고를 불러오는 중...</p>
+        </div>
+    </section>
+
+    <!-- 무료 공고 (하단 리스트) -->
+    <section>
+        <h2>📝 무료 공고</h2>
+        <div id="free-job-list">
+            <p>무료 공고를 불러오는 중...</p>
+        </div>
+    </section>
+
+    <div><a href="job_post.html">구인공고등록</a></div>
+</div>
+
+<script>
+    // 유료 공고 불러오기
+    fetch('/api/posts/job/paid')
+        .then(response => response.json())
+        .then(jobs => {
+            const paidList = document.getElementById('paid-job-list');
+            paidList.innerHTML = "";
+            if (!jobs || jobs.length === 0) {
+                paidList.innerHTML = "<p>등록된 유료 공고가 없습니다.</p>";
+            } else {
+                jobs.forEach(job => {
+                    const jobItem = document.createElement("div");
+                    jobItem.className = "job-card paid";
+                    jobItem.innerHTML = `<a href="/job_post_detail.html?id=${job.id}">${job.title}</a>
+                                         <span>${job.companyName} | ${new Date(job.createdAt).toLocaleDateString()}</span>`;
+                    paidList.appendChild(jobItem);
+                });
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            document.getElementById('paid-job-list').innerHTML = "<p>유료 공고를 불러오는 중 오류가 발생했습니다.</p>";
+        });
+
+    // 무료 공고 불러오기
+    fetch('/api/posts/job/free')
+        .then(response => response.json())
+        .then(jobs => {
+            const freeList = document.getElementById('free-job-list');
+            freeList.innerHTML = "";
+            if (!jobs || jobs.length === 0) {
+                freeList.innerHTML = "<p>등록된 무료 공고가 없습니다.</p>";
+            } else {
+                jobs.forEach(job => {
+                    const jobItem = document.createElement("div");
+                    jobItem.className = "job-card free";
+                    jobItem.innerHTML = `<a href="/job_post_detail.html?id=${job.id}">${job.title}</a>
+                                         <span>${job.companyName} | ${new Date(job.createdAt).toLocaleDateString()}</span>`;
+                    freeList.appendChild(jobItem);
+                });
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            document.getElementById('free-job-list').innerHTML = "<p>무료 공고를 불러오는 중 오류가 발생했습니다.</p>";
+        });
+</script>
+
+</body>
+</html>

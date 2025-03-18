@@ -1,51 +1,47 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>구인 공고 상세</title>
-  <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구인공고 상세</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-  <div class="container">
-    <div id="postDetail" class="card">
-      <p>게시글을 불러오는 중...</p>
-    </div>
-    <a href="/index.html" class="btn-back" style="display:block; margin-top:20px;">← 목록으로 돌아가기</a>
-  </div>
 
-  <script>
+<div class="container">
+    <h1 id="job-title"></h1>
+    <p><strong>모집 단체:</strong> <span id="company-name"></span></p>
+    <p><strong>연락처:</strong> <span id="contact-info"></span></p>
+    <p><strong>위치:</strong> <span id="location"></span></p>
+    <p><strong>급여:</strong> <span id="salary"></span> 원</p>
+    <p><strong>등록일:</strong> <span id="created-at"></span></p>
+    <p><strong>마감일:</strong> <span id="expiration-date"></span></p>
+    <p><strong>조회수:</strong> <span id="views"></span></p>
+    <p><strong>좋아요:</strong> <span id="likes"></span></p>
+    <hr>
+    <p id="job-description"></p>
+</div>
+
+<script>
     const params = new URLSearchParams(window.location.search);
-    const postId = params.get('id');
+    const jobId = params.get("id");
 
-    if (!postId) {
-      document.getElementById('postDetail').innerHTML = '<p>잘못된 접근입니다. 게시글 ID가 없습니다.</p>';
-    } else {
-      fetch(`/api/posts/job/${postId}`)
-        .then(response => {
-          if (!response.ok) throw new Error('게시글 상세 불러오기 실패');
-          return response.json();
+    fetch(`/api/jobs/detail/${jobId}`)
+        .then(response => response.json())
+        .then(job => {
+            document.getElementById("job-title").textContent = job.title;
+            document.getElementById("company-name").textContent = job.companyName;
+            document.getElementById("contact-info").textContent = job.contactInfo;
+            document.getElementById("location").textContent = job.location;
+            document.getElementById("salary").textContent = job.salary ? job.salary.toLocaleString() : "협의 가능";
+            document.getElementById("created-at").textContent = new Date(job.createdAt).toLocaleDateString();
+            document.getElementById("expiration-date").textContent = job.expirationDate ? new Date(job.expirationDate).toLocaleDateString() : "없음";
+            document.getElementById("views").textContent = job.views;
+            document.getElementById("likes").textContent = job.likes;
+            document.getElementById("job-description").textContent = job.description;
         })
-        .then(post => {
-          const detailEl = document.getElementById('postDetail');
-          detailEl.innerHTML = `
-            <h2>${post.title}</h2>
-            <p>${post.content}</p>
-            <div class="job-detail-meta">
-              <span>글번호: ${post.id}</span>
-              <span>글쓴이: ${post.author || 'N/A'}</span>
-              <span>작성일: ${new Date(post.createdAt).toLocaleDateString()}</span>
-              <span>조회수: ${post.views || 0}</span>
-              <span>댓글수: ${post.commentCount || 0}</span>
-              <span>좋아요수: ${post.likeCount || 0}</span>
-            </div>
-          `;
-        })
-        .catch(error => {
-          console.error(error);
-          document.getElementById('postDetail').innerHTML = '<p>게시글을 불러오는 중 에러가 발생했습니다.</p>';
-        });
-    }
-  </script>
+        .catch(error => console.error(error));
+</script>
+
 </body>
 </html>

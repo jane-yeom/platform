@@ -16,14 +16,6 @@ public class JobPostService {
 
     }
 
-    @Transactional
-    public Post registerJobPost(Post post){
-
-        post.setType("구인");
-        jobPostMapper.insertPost(post);
-        return post;
-
-    }
 
     public List<Post> getPaidJobPosts() {
         return jobPostMapper.findPaidJobPosts();
@@ -33,10 +25,7 @@ public class JobPostService {
         return jobPostMapper.findFreeJobPosts();
     }
 
-    public List<Post> getAllJobPosts() {
-        // "구인"이라는 문자열을 파라미터로 넘겨줍니다.
-        return jobPostMapper.findAllByType("구인");
-    }
+
 
     public Post getJobPostById(Long id) {
         Post post = jobPostMapper.findById(id);
@@ -46,25 +35,10 @@ public class JobPostService {
         return null;
     }
 
-     @Transactional
-    public Post updateJobPost(Long id, Post updatedPost) {
-        Post existing = jobPostMapper.findById(id);
-        if (existing == null || !"구인".equals(existing.getType())) {
-            throw new RuntimeException("Job post not found or invalid type");
-        }
-        existing.setTitle(updatedPost.getTitle());
-        existing.setContent(updatedPost.getContent());
-        jobPostMapper.updateJobPost(existing);
-        return existing;
+    public void createJobPost(Post jobPost) {
+        jobPostMapper.insertJobPost(jobPost);
     }
 
-    @Transactional
-    public void deleteJobPost(Long id) {
-        Post existing = jobPostMapper.findById(id);
-        if (existing == null || !"구인".equals(existing.getType())) {
-            throw new RuntimeException("Job post not found or invalid type");
-        }
-        jobPostMapper.deleteJobPost(id);
-    }
+
 
 }

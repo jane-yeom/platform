@@ -47,172 +47,102 @@ a:hover {
 }
 
 /* ------------------------------
-   HEADER & NAVIGATION
+   전역 헤더 (header.html)
 ------------------------------ */
-.header {
+.header-container {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 1px solid #e2e8f0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #ffffff;
   padding: 10px 20px;
-  border-bottom: 1px solid #e2e8f0;
-  margin-bottom: 20px;
+  z-index: 1000;
 }
-.header .logo {
+
+.logo {
   font-size: 1.5rem;
   font-weight: 700;
   color: #1f2937;
 }
-.header .search-bar {
-  flex: 1;
-  margin: 0 20px;
-}
-.header .search-bar input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-}
-.header .profile img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
 
 .nav-menu {
   display: flex;
-  gap: 16px;
-  font-size: 0.9rem;
-  margin-top: 10px;
+  gap: 20px;
+  flex: 1;
+  justify-content: center;
 }
-.nav-menu .nav-item {
+
+.nav-menu a {
   color: #4b5563;
-  cursor: pointer;
+  font-size: 1rem;
 }
-.nav-menu .nav-item:hover {
+
+.nav-menu a:hover {
   color: #2563eb;
 }
 
-/* ------------------------------
-   DROPDOWN MENU
------------------------------- */
-.dropdown {
-  position: relative;
-  display: inline-block;
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
-.dropbtn {
-  color: #4b5563;
-  text-decoration: none;
-  padding: 8px 12px;
-  display: block;
-}
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #fff;
-  min-width: 150px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  z-index: 1;
+
+.search-bar input {
+  padding: 6px 10px;
+  border: 1px solid #cbd5e1;
   border-radius: 4px;
 }
-.dropdown-content a {
-  color: #4b5563;
-  padding: 10px 16px;
+
+.profile-link {
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  display: block;
-  font-size: 0.9rem;
+  color: inherit;
 }
-.dropdown-content a:hover {
+
+.profile-link img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.username {
+  margin-left: 8px;
+  font-size: 1rem;
+}
+
+/* ------------------------------
+   게시판 스타일 (공통)
+------------------------------ */
+.board-section {
+  margin-bottom: 30px;
+}
+
+.board-header, .board-row {
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.board-header {
   background-color: #f3f4f6;
-}
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-.dropdown:hover .dropbtn {
-  color: #2563eb;
-}
-
-/* ------------------------------
-   FORM & BUTTON STYLES
------------------------------- */
-.job-post-container {
-  max-width: 600px;
-  margin-top: 40px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  padding: 30px;
-}
-
-.job-post-title {
-  font-size: 1.5rem;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.job-post-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-.form-label {
   font-weight: 600;
-  margin-bottom: 8px;
-  color: #1f2937;
 }
-.form-input,
-.form-textarea {
-  padding: 12px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  color: #374151;
-}
-.form-input:focus,
-.form-textarea:focus {
-  outline: none;
-  border-color: #2563eb;
-}
-.btn-submit {
-  align-self: flex-end;
-  background-color: #2563eb;
-  color: #fff;
-  padding: 12px 24px;
-  border-radius: 6px;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-.btn-submit:hover {
-  background-color: #1e40af;
-}
-.message {
-  margin-top: 20px;
+.board-col {
+  flex: 1;
   text-align: center;
-  font-weight: 500;
-  color: #2563eb;
+}
+.board-col-title {
+  flex: 3;
+  text-align: left;
+  padding-left: 10px;
 }
 
 /* ------------------------------
-   JOB POST & PROFILE CARD STYLES
+   유료 구인 공고 (카드형 그리드)
 ------------------------------ */
-.card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  padding: 16px;
-  margin-bottom: 20px;
-}
-
-/* ------------------------------
-   JOB POST LIST LAYOUT
------------------------------- */
-/* 유료 구인 공고: 그리드 레이아웃 (정사각형 카드) */
 .grid-layout {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -235,28 +165,40 @@ a:hover {
   margin-bottom: 8px;
 }
 
-/* 일반 구인 공고: 리스트 레이아웃 (제목만) */
-.list-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* ------------------------------
+   일반 구인 공고 (게시판 리스트)
+------------------------------ */
+.board-body {
+  margin-top: 10px;
 }
-.list-item {
+.board-row a {
+  text-decoration: none;
+  color: inherit;
+}
+.board-row a:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------------
+   기본 프로필 리스트 (리스트형)
+------------------------------ */
+.free-job-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.free-job-list .list-item {
   padding: 12px;
-  background-color: #ffffff;
   border-bottom: 1px solid #e2e8f0;
   font-size: 1rem;
 }
 
 /* ------------------------------
-   PREMIUM PROFILE SECTION
+   PREMIUM PROFILE SECTION (카드형)
 ------------------------------ */
 .premium-profiles {
   margin-bottom: 30px;
   padding: 20px;
-}
-.premium-profiles .section-title {
-  margin-bottom: 16px;
 }
 .premium-container {
   display: flex;
@@ -304,99 +246,160 @@ a:hover {
    RESPONSIVE
 ------------------------------ */
 @media (max-width: 768px) {
-  .header {
+  .header-container {
     flex-direction: column;
-    align-items: flex-start;
-  }
-  .header .search-bar {
-    margin: 10px 0;
+    align-items: center;
   }
   .nav-menu {
     flex-wrap: wrap;
   }
-  .premium-container {
-    flex-wrap: nowrap;
+  .header-right {
+    margin-top: 10px;
   }
+}
+/* 유료 공고 카드 */
+.job-card.paid {
+    background-color: #ffe4e1;
+    border-left: 4px solid #ff3d00;
+    padding: 10px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+/* 무료 공고 카드 */
+.job-card.free {
+    background-color: #f9f9f9;
+    border-left: 4px solid #1e40af;
+    padding: 10px;
+    margin-bottom: 8px;
+}
+
+/* 공고 제목 스타일 */
+.job-card a {
+    text-decoration: none;
+    font-size: 1rem;
+    color: #333;
+}
+
+.job-card a:hover {
+    color: #ff3d00;
 }
 
 /* ------------------------------
-   FREE JOB POST LIST 스타일 (게시판 형태)
+   공통 스타일
 ------------------------------ */
-.free-job-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.free-job-list li {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid #e2e8f0;
-  transition: background-color 0.3s ease;
-}
-
-.free-job-list li:hover {
+body {
   background-color: #f9fafb;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
-.free-job-list .job-info {
-  flex: 3;
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ------------------------------
+   제목 스타일
+------------------------------ */
+.job-post-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #2563eb;
+}
+
+/* ------------------------------
+   폼 스타일
+------------------------------ */
+.job-post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
   display: flex;
   flex-direction: column;
 }
 
-.free-job-list .job-info a {
+.form-label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
   font-size: 1rem;
-  font-weight: 600;
-  color: #1f2937;
-  text-decoration: none;
+  background-color: #f8fafc;
 }
 
-.free-job-list .job-info a:hover {
-  text-decoration: underline;
+.form-textarea {
+  resize: vertical;
+  height: 120px;
 }
 
-.free-job-list .job-meta {
-  flex: 2;
+/* ------------------------------
+   라디오 버튼 (유료 공고 선택)
+------------------------------ */
+.radio-group {
   display: flex;
-  gap: 16px;
-  font-size: 0.85rem;
-  color: #6b7280;
-  justify-content: flex-end;
+  gap: 15px;
+  align-items: center;
 }
 
-.free-job-list .job-meta span {
-  min-width: 60px;
-  text-align: right;
-}
-
-/* 게시판 헤더 및 행 스타일 */
-.board-header, .board-row {
+.radio-group label {
   display: flex;
-  padding: 8px;
-  border-bottom: 1px solid #e2e8f0;
+  align-items: center;
+  gap: 6px;
+  font-size: 1rem;
 }
-.board-header {
-  background-color: #f3f4f6;
+
+/* ------------------------------
+   버튼 스타일
+------------------------------ */
+.btn-submit {
+  background-color: #2563eb;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 6px;
+  border: none;
   font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
-.board-col {
-  flex: 1;
+
+.btn-submit:hover {
+  background-color: #1e40af;
+}
+
+/* ------------------------------
+   성공 메시지
+------------------------------ */
+.message {
+  margin-top: 10px;
   text-align: center;
+  font-weight: 500;
+  color: #2563eb;
 }
 
-/* 상세 페이지 메타 정보 */
-.job-detail-meta {
-  margin-top: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  font-size: 0.9rem;
-  color: #6b7280;
+/* ------------------------------
+   반응형 디자인
+------------------------------ */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+  }
 }
-.job-detail-meta span {
-  margin-right: 12px;
-}
+

@@ -3,6 +3,8 @@ package com.acc_platform.controller;
 import com.acc_platform.model.Post;
 import com.acc_platform.service.JobPostService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +20,7 @@ public class JobPostController {
 
     }
 
-     // 구인 공고 등록 (POST /api/posts/job)
-    @PostMapping("/job")
-    public ResponseEntity<Post> createJobPost(@Validated @RequestBody Post post) {
-        Post createdPost = jobPostService.registerJobPost(post);
-        return ResponseEntity.ok(createdPost);
-    }
+
 
     // 유료 구인 공고 목록 (GET /api/posts/job/paid)
     @GetMapping("/job/paid")
@@ -49,18 +46,20 @@ public class JobPostController {
         return ResponseEntity.ok(post);
     }
 
-    // 구인 공고 수정 (PUT /api/posts/job/{id})
-    @PutMapping("/job/{id}")
-    public ResponseEntity<Post> updateJobPost(@PathVariable Long id, @Validated @RequestBody Post post) {
-        Post updated = jobPostService.updateJobPost(id, post);
-        return ResponseEntity.ok(updated);
+     @PostMapping("/register")
+    public ResponseEntity<?> registerJobPost(@RequestBody Post jobPost,
+                                             @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(401).body("{\"success\": false, \"message\": \"로그인이 필요합니다.\"}");
+        }
+
+        String username = userDetails.getUsername(); // 로그인한 사용자 이름 가져오기
+        jobPost.setWriter(username); // 작성자 자동 설정
+
+        jobPostService.createJobPost(jobPost);
+        return ResponseEntity.ok().body("{\"success\": true}");
     }
 
-    // 구인 공고 삭제 (DELETE /api/posts/job/{id})
-    @DeleteMapping("/job/{id}")
-    public ResponseEntity<Void> deleteJobPost(@PathVariable Long id) {
-        jobPostService.deleteJobPost(id);
-        return ResponseEntity.noContent().build();
-    }
+
 
 }

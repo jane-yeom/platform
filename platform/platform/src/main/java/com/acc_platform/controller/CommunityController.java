@@ -57,4 +57,9 @@ public class CommunityController {
         communityPostService.deleteCommunityPost(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/latest")
+    public List<Community> getLatestCommunityPosts() {
+        return communityPostService.getLatestPosts();
+    }
 }

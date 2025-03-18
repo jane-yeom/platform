@@ -51,4 +51,8 @@ public class CommunityService {
         }
         communityMapper.deleteCommunityPost(id);
     }
+
+    public List<Community> getLatestPosts() {
+        return communityMapper.findLatestPosts();
+    }
 }
